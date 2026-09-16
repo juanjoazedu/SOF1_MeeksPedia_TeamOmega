@@ -1,0 +1,1 @@
+# Stagement on the Use of Artifitial Intelligence Tools
