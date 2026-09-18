@@ -12,9 +12,13 @@ export const getAllCharacters = async (signal?: AbortSignal): Promise<ApiRespons
 
   return response.json();
 };
-
+//const response = await fetch(`${BASE_URL}/character?name=${name}`, { signal });
 export const getCharactersByName = async (name: string, signal?: AbortSignal): Promise<ApiResponse<Character>> => {
-  const response = await fetch(`${BASE_URL}/character?name=${name}`, { signal });
+  const response = await fetch(`${BASE_URL}/character?name=${encodeURIComponent(name)}`, { signal });
+
+  if (response.status === 404) {
+    return { info: { count: 0, pages: 0, next: null, prev: null }, results: [] };
+  }
 
   if (!response.ok) {
     throw new Error('Error to fetch characters by name');

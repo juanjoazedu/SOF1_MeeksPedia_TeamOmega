@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import type { Character } from '../types/character';
-import { getAllCharacters } from '../services/apiClient';
+import { getAllCharacters, getCharactersByName } from '../services/apiClient';
 import { CharacterCard } from './CharacterCard';
 import { StatusMessage } from './StatusMessage';
+import styles from '../styles/ListCharacters.module.css';
 
 export const ListCharacters = () => {
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -12,12 +14,15 @@ export const ListCharacters = () => {
   useEffect(() => {
     const controller = new AbortController();
 
-    const fetchCharacters = async () => {
+    const timer = setTimeout(async () => {
       setLoading(true);
       setError(null);
 
       try {
-        const data = await getAllCharacters(controller.signal);
+        const data = searchTerm.trim()
+          ? await getCharactersByName(searchTerm.trim(), controller.signal)
+          : await getAllCharacters(controller.signal);
+
         setCharacters(data.results);
       } catch (err) {
         if (err instanceof DOMException && err.name === 'AbortError') return;
@@ -25,32 +30,39 @@ export const ListCharacters = () => {
       } finally {
         setLoading(false);
       }
-    };
-
-    fetchCharacters();
+    }, 400);
 
     return () => {
+      clearTimeout(timer);
       controller.abort();
     };
-  }, []);
-
-  if (loading) {
-    return <StatusMessage type="loading" message="Loading characters..." />;
-  }
-
-  if (error) {
-    return <StatusMessage type="error" message={error} />;
-  }
-
-    if (characters.length === 0) {
-    return <StatusMessage type="empty" message="No characters were found." />;
-  }
+  }, [searchTerm]);
 
   return (
-    <section className="character-list">
-      {characters.map((char) => (
-        <CharacterCard key={char.id} character={char} />
-      ))}
+    <section className={styles.container}>
+      <input
+        className={styles.searchInput}
+        type="text"
+        placeholder="Search character..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+
+      {loading && <StatusMessage type="loading" message="Loading characters..." />}
+
+      {error && !loading && <StatusMessage type="error" message={error} />}
+
+      {!loading && !error && characters.length === 0 && (
+        <StatusMessage type="empty" message="No characters were found." />
+      )}
+
+      {!loading && !error && characters.length > 0 && (
+        <div className={styles.grid}>
+          {characters.map((char) => (
+            <CharacterCard key={char.id} character={char} />
+          ))}
+        </div>
+      )}
     </section>
   );
 };

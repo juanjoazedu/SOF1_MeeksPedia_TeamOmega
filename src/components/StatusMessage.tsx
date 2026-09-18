@@ -1,5 +1,7 @@
 export type StatusType = 'loading' | 'error' | 'empty';
 
+import styles from '../styles/StatusMessage.module.css';
+
 interface StatusMessageProps {
   type: StatusType;
   message: string;
@@ -7,7 +9,7 @@ interface StatusMessageProps {
 
 export const StatusMessage = ({ type, message }: StatusMessageProps) => {
   return (
-    <p className={`status-message status-message--${type}`} role="status">
+    <p className={`${styles.message} ${styles[type]}`} role="status">
       {message}
     </p>
   );
