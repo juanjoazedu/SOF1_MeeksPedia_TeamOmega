@@ -1,0 +1,19 @@
+.message {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  border-radius: var(--radius);
+  background-color: var(--bg-card);
+}
+
+.loading {
+  color: var(--accent);
+}
+
+.error {
+  color: var(--error);
+}
+
+.empty {
+  color: var(--text-secondary);
+}

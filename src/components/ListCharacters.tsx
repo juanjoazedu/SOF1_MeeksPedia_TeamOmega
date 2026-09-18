@@ -3,6 +3,7 @@ import type { Character } from '../types/character';
 import { getAllCharacters, getCharactersByName } from '../services/apiClient';
 import { CharacterCard } from './CharacterCard';
 import { StatusMessage } from './StatusMessage';
+import styles from '../styles/ListCharacters.module.css';
 
 export const ListCharacters = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -38,8 +39,9 @@ export const ListCharacters = () => {
   }, [searchTerm]);
 
   return (
-    <section className="character-list-container">
+    <section className={styles.container}>
       <input
+        className={styles.searchInput}
         type="text"
         placeholder="Search character..."
         value={searchTerm}
@@ -55,7 +57,7 @@ export const ListCharacters = () => {
       )}
 
       {!loading && !error && characters.length > 0 && (
-        <div className="character-list">
+        <div className={styles.grid}>
           {characters.map((char) => (
             <CharacterCard key={char.id} character={char} />
           ))}
