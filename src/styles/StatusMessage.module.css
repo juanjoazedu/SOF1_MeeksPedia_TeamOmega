@@ -17,3 +17,20 @@
 .empty {
   color: var(--text-secondary);
 }
+
+.retryButton {
+  display: block;
+  margin: 0.75rem auto 0;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  background-color: var(--bg-card);
+  border: 1px solid var(--error);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.retryButton:hover {
+  background-color: var(--error);
+  color: white;
+}
