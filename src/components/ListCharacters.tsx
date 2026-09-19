@@ -3,7 +3,7 @@ import type { Character } from '../types/character';
 import { getAllCharacters, getCharactersByName } from '../services/apiClient';
 import { CharacterCard } from './CharacterCard';
 import { StatusMessage } from './StatusMessage';
-import styles from './styles/ListCharacters.module.css';
+import styles from '../styles/ListCharacters.module.css';
 
 interface ListCharactersProps {
   onSelectCharacter: (id: number) => void;
