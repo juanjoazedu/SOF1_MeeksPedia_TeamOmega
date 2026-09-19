@@ -43,7 +43,12 @@ export const MeeksPediaApp = () => {
           showFavoritesOnly={showFavoritesOnly}
         />
       ) : (
-        <CharacterDetail id={selectedId} onBack={() => setSelectedId(null)} />
+        <CharacterDetail
+          id={selectedId}
+          onBack={() => setSelectedId(null)}
+          isFavorite={favorites.includes(selectedId)}
+          onToggleFavorite={handleToggleFavorite}
+        />
       )}
     </>
   );
