@@ -14,8 +14,6 @@ export const CharacterCard = ({ character }: CharacterCardProps) => {
         <p className={styles.text}>State: {character.status}</p>
         <p className={styles.text}>Species: {character.species}</p>
         <p className={styles.text}>Gender: {character.gender}</p>
-        <p className={styles.text}>Origin: {character.origin.name}</p>
-        <p className={styles.text}>Location: {character.location.name}</p>
       </div>
     </article>
   );
