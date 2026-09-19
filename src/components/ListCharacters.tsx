@@ -22,6 +22,9 @@ export const ListCharacters = ({
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState<number>(0);
+
+  const handleRetry = () => setRetryCount((prev) => prev + 1);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -65,7 +68,7 @@ export const ListCharacters = ({
       clearTimeout(timer);
       controller.abort();
     };
-  }, [searchTerm, showFavoritesOnly, favorites]);
+  }, [searchTerm, showFavoritesOnly, favorites, retryCount]);
 
   return (
     <section className={styles.container}>
@@ -79,7 +82,7 @@ export const ListCharacters = ({
 
       {loading && <StatusMessage type="loading" message="Loading characters..." />}
 
-      {error && !loading && <StatusMessage type="error" message={error} />}
+      {error && !loading && <StatusMessage type="error" message={error} onRetry={handleRetry} />}
 
       {!loading && !error && characters.length === 0 && (
         <StatusMessage

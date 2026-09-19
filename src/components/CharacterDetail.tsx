@@ -7,9 +7,16 @@ import styles from '../styles/CharacterDetail.module.css';
 interface CharacterDetailProps {
   id: number;
   onBack: () => void;
+  isFavorite: boolean;
+  onToggleFavorite: (id: number) => void;
 }
 
-export const CharacterDetail = ({ id, onBack }: CharacterDetailProps) => {
+export const CharacterDetail = ({
+  id,
+  onBack,
+  isFavorite,
+  onToggleFavorite,
+}: CharacterDetailProps) => {
   const [character, setCharacter] = useState<Character | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -51,7 +58,17 @@ export const CharacterDetail = ({ id, onBack }: CharacterDetailProps) => {
 
       {!loading && !error && character && (
         <article className={styles.detail}>
-          <img className={styles.image} src={character.image} alt={character.name} />
+          <div className={styles.imageContainer}>
+            <img className={styles.image} src={character.image} alt={character.name} />
+            <button
+              type="button"
+              className={`${styles.favoriteBtn} ${isFavorite ? styles.active : ''}`}
+              onClick={() => onToggleFavorite(character.id)}
+              title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+            >
+              {isFavorite ? '★' : '☆'}
+            </button>
+          </div>
 
           <div className={styles.info}>
             <h2 className={styles.title}>{character.name}</h2>
