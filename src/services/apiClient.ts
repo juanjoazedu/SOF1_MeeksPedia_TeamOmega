@@ -36,3 +36,19 @@ export const getCharacterById = async (id: number, signal?: AbortSignal): Promis
 
   return response.json();
 };
+
+export const getMultipleCharacters = async (ids: number[], signal?: AbortSignal): Promise<Character[]> => {
+  if (ids.length === 0) return [];
+  if (ids.length === 1) {
+    const char = await getCharacterById(ids[0], signal);
+    return [char];
+  }
+
+  const response = await fetch(`${BASE_URL}/character/${ids.join(',')}`, { signal });
+
+  if (!response.ok) {
+    throw new Error('Error fetching favorite characters');
+  }
+
+  return response.json();
+};
