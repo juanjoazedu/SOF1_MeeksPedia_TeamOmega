@@ -3,9 +3,13 @@ import type { Character } from '../types/character';
 import { getAllCharacters, getCharactersByName } from '../services/apiClient';
 import { CharacterCard } from './CharacterCard';
 import { StatusMessage } from './StatusMessage';
-import styles from '../styles/ListCharacters.module.css';
+import styles from './styles/ListCharacters.module.css';
 
-export const ListCharacters = () => {
+interface ListCharactersProps {
+  onSelectCharacter: (id: number) => void;
+}
+
+export const ListCharacters = ({ onSelectCharacter }: ListCharactersProps) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -59,7 +63,7 @@ export const ListCharacters = () => {
       {!loading && !error && characters.length > 0 && (
         <div className={styles.grid}>
           {characters.map((char) => (
-            <CharacterCard key={char.id} character={char} />
+            <CharacterCard key={char.id} character={char} onSelect={onSelectCharacter} />
           ))}
         </div>
       )}
