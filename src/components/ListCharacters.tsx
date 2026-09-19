@@ -7,9 +7,15 @@ import styles from '../styles/ListCharacters.module.css';
 
 interface ListCharactersProps {
   onSelectCharacter: (id: number) => void;
+  favorites: number[];
+  onToggleFavorite: (id: number) => void;
 }
 
-export const ListCharacters = ({ onSelectCharacter }: ListCharactersProps) => {
+export const ListCharacters = ({
+  onSelectCharacter,
+  favorites,
+  onToggleFavorite,
+}: ListCharactersProps) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -63,7 +69,13 @@ export const ListCharacters = ({ onSelectCharacter }: ListCharactersProps) => {
       {!loading && !error && characters.length > 0 && (
         <div className={styles.grid}>
           {characters.map((char) => (
-            <CharacterCard key={char.id} character={char} onSelect={onSelectCharacter} />
+            <CharacterCard
+              key={char.id}
+              character={char}
+              onSelect={onSelectCharacter}
+              isFavorite={favorites.includes(char.id)}
+              onToggleFavorite={onToggleFavorite}
+            />
           ))}
         </div>
       )}
