@@ -21,4 +21,16 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.favoriteBadge:hover {
+  border-color: var(--favorite);
+}
+
+.activeBadge {
+  border-color: var(--favorite);
+  background-color: rgba(245, 158, 11, 0.15);
+  color: var(--favorite);
 }

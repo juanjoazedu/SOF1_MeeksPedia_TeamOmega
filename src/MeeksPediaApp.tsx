@@ -5,6 +5,7 @@ import styles from './styles/MeeksPediaApp.module.css';
 
 export const MeeksPediaApp = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState<boolean>(false);
 
   const [favorites, setFavorites] = useState<number[]>(() => {
     const saved = localStorage.getItem('meekspedia_favorites');
@@ -25,9 +26,13 @@ export const MeeksPediaApp = () => {
     <>
       <header className={styles.header}>
         <h1 className={styles.title}>MeeksPedia</h1>
-        <div className={styles.favoriteBadge}>
+        <button
+          className={`${styles.favoriteBadge} ${showFavoritesOnly ? styles.activeBadge : ''}`}
+          onClick={() => setShowFavoritesOnly((prev) => !prev)}
+          title={showFavoritesOnly ? 'Show all characters' : 'Show favorite characters'}
+        >
           ⭐ Favorites: <strong>{favorites.length}</strong>
-        </div>
+        </button>
       </header>
 
       {selectedId === null ? (
@@ -35,6 +40,7 @@ export const MeeksPediaApp = () => {
           onSelectCharacter={setSelectedId}
           favorites={favorites}
           onToggleFavorite={handleToggleFavorite}
+          showFavoritesOnly={showFavoritesOnly}
         />
       ) : (
         <CharacterDetail id={selectedId} onBack={() => setSelectedId(null)} />
